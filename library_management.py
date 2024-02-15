@@ -50,7 +50,7 @@ class Library:
         self.book_id += 1
 
     def remove_book(self):
-        title_to_remove = None  # Initialize with None
+        title_to_remove = None
 
         remove_option = input("Enter 1 to remove by title or 2 to remove by book ID: ")
 
@@ -81,6 +81,38 @@ class Library:
 
         print(f"Book '{identifier}' removed successfully.")
 
+    def modify_book(self):
+        self.list_books()
+
+        book_id_to_modify = input("Enter the ID of the book you want to modify: ")
+
+        self.file.seek(0)
+        book_lines = self.file.read().splitlines()
+
+        for i, line in enumerate(book_lines):
+            if line.count(',') == 5:
+                book_id, title, author, release_year, num_pages, category = line.split(',')
+                if book_id_to_modify == book_id:
+                    new_title = input(f"Enter the new title for the book (old: {title}): ")
+                    new_author = input(f"Enter the new author for the book (old: {author}): ")
+                    new_release_year = input(f"Enter the new release year for the book (old: {release_year}): ")
+                    new_num_pages = input(f"Enter the new number of pages for the book (old: {num_pages}): ")
+                    new_category = input(f"Enter the new category for the book (old: {category}): ")
+
+                    updated_line = f"{book_id},{new_title},{new_author},{new_release_year},{new_num_pages},{new_category}"
+                    book_lines[i] = updated_line
+                    break
+        else:
+            print(f"Book with ID '{book_id_to_modify}' not found.")
+
+        updated_content = '\n'.join(book_lines)
+
+        self.file.seek(0)
+        self.file.truncate()
+        self.file.write(updated_content)
+
+        print(f"Book with ID '{book_id_to_modify}' modified successfully.")
+
 def main():
     lib = Library()
 
@@ -92,11 +124,12 @@ def main():
         menu_table.add_row(["1", "List Books"])
         menu_table.add_row(["2", "Add Book"])
         menu_table.add_row(["3", "Remove Book"])
-        menu_table.add_row(["4", "Exit"])
+        menu_table.add_row(["4", "Modify Book"])
+        menu_table.add_row(["5", "Exit"])
 
         print(menu_table)
 
-        choice = input("Enter your choice (1-4): ")
+        choice = input("Enter your choice (1-5): ")
 
         if choice == '1':
             lib.list_books()
@@ -105,6 +138,8 @@ def main():
         elif choice == '3':
             lib.remove_book()
         elif choice == '4':
+            lib.modify_book()
+        elif choice == '5':
             print("Exiting the program. See You!")
             break
         else:
