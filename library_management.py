@@ -63,7 +63,7 @@ class Library:
             print("Invalid option. Please enter 1 or 2.")
             return
 
-        self.file.truncate(0)
+        self.file.seek(0)
         book_lines = self.file.read().splitlines()
 
         for i, line in enumerate(book_lines):
@@ -75,7 +75,7 @@ class Library:
             else:
                 print(f"Invalid format in line: {line}")
 
-        self.file.seek(0)
+        self.file.truncate(0)
         for line in book_lines:
             self.file.write(line + '\n')
 
