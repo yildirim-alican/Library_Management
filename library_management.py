@@ -63,7 +63,7 @@ class Library:
             print("Invalid option. Please enter 1 or 2.")
             return
 
-        self.file.seek(0)
+        self.file.truncate(0)
         book_lines = self.file.read().splitlines()
 
         for i, line in enumerate(book_lines):
@@ -108,6 +108,7 @@ class Library:
         updated_content = '\n'.join(book_lines)
 
         self.file.seek(0)
+        self.file.truncate(0)
         self.file.write(updated_content)
 
         print(f"Book with ID '{book_id_to_modify}' modified successfully.")
