@@ -108,7 +108,6 @@ class Library:
         updated_content = '\n'.join(book_lines)
 
         self.file.seek(0)
-        self.file.truncate()
         self.file.write(updated_content)
 
         print(f"Book with ID '{book_id_to_modify}' modified successfully.")
