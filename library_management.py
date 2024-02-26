@@ -75,7 +75,7 @@ class Library:
             else:
                 print(f"Invalid format in line: {line}")
 
-        self.file.truncate(0)
+        self.file.seek(0)
         for line in book_lines:
             self.file.write(line + '\n')
 
